@@ -44,7 +44,7 @@ public class MainView extends VerticalLayout {
         
             curl http://localhost:8080/api/public/export
 
-        Inserting new messages (with basic httpt auth authentication):
+        Inserting new messages (with basic http auth authentication):
         
             curl -H "Content-Type: application/json" \\ 
                 -u user:password --request POST  --data '{"user" : "Masa", "message" : "Olink eka?!"}' \\ 

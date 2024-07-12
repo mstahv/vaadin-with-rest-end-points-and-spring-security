@@ -39,7 +39,7 @@ public class SecurityConfig extends VaadinWebSecurity {
                 .securityMatcher("/api/private/**")
                 // Ignoring CSRF for the private API, expected to be used by other services, not
                 // directly by browser clients
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/private/**"))
+                .csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/api/private/**")))
                 .authorizeHttpRequests(auth -> {
                     auth.anyRequest().authenticated();
                 })

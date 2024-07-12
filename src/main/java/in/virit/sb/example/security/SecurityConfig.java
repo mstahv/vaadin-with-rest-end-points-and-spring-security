@@ -5,6 +5,7 @@ import in.virit.sb.example.views.LoginView;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -43,10 +45,10 @@ public class SecurityConfig extends VaadinWebSecurity {
                 })
                 // so session management/cookie is not needed
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .httpBasic(withDefaults())
+                // HttpStatusEntryPoint only sets status code, Location header to login page makes no sense here
+                .httpBasic(cfg -> cfg.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .build();
     }
-
 
     // Then open anything for the public API for the application
     @Order(20)
@@ -54,7 +56,7 @@ public class SecurityConfig extends VaadinWebSecurity {
     SecurityFilterChain configurePublicApi(HttpSecurity http) throws Exception {
          http
                  .securityMatcher(AntPathRequestMatcher.antMatcher("/api/public/**"))
-                 .authorizeRequests(authz -> authz.anyRequest().permitAll());
+                 .authorizeHttpRequests(authz -> authz.anyRequest().permitAll());
         return http.build();
     }
 

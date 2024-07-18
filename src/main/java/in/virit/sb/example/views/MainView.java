@@ -21,6 +21,7 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.spring.security.AuthenticationContext;
 import in.virit.sb.example.Message;
 import in.virit.sb.example.MessageService;
@@ -31,6 +32,7 @@ import org.vaadin.firitin.components.grid.VGrid;
 import org.vaadin.firitin.components.orderedlayout.VHorizontalLayout;
 
 @Route
+@RouteAlias("questions")
 // Request authenticated user
 @PermitAll
 public class MainView extends VerticalLayout {
